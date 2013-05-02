@@ -1,5 +1,3 @@
-package labor5;
-
 public class Main
 {
 
