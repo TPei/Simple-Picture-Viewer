@@ -8,6 +8,18 @@ import javax.swing.JPanel;
 
 public class ImageHolder extends JPanel
 {
+	private int whichPicture = 0;
+	
+	public int getWhichPicture()
+	{
+		return whichPicture;
+	}
+
+	public void setWhichPicture(int whichPicture)
+	{
+		this.whichPicture = whichPicture;
+	}
+
 	ImageHolder()
 	{
 		
@@ -38,7 +50,7 @@ public class ImageHolder extends JPanel
 	{
 		
 		// get nth image in Image folder
-		Image image = getImage(2);
+		Image image = getImage(whichPicture);
 		g.drawImage(image, xStart, yStart, xSize, ySize, this);
 	}	
 	
