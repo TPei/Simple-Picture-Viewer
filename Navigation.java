@@ -8,24 +8,24 @@ public class Navigation extends JPanel
 	Navigation()
 	{
 		// picture buttons
-        MyButton nextButton = new MyButton();
+        MyButton nextButton = new MyButton(0);
         ImageIcon nextButtonImage = new ImageIcon("/Users/Thomas/Dropbox/Programming/OOP/Labore/src/labor5/icons/right.png");
         nextButton.setIcon(nextButtonImage);
         
-        MyButton prevButton = new MyButton();
+        MyButton prevButton = new MyButton(1);
         ImageIcon prevButtonImage = new ImageIcon("/Users/Thomas/Dropbox/Programming/OOP/Labore/src/labor5/icons/left.png");
         prevButton.setIcon(prevButtonImage);
         
         // zoom buttons
-        MyButton zoomOut = new MyButton();
+        MyButton zoomOut = new MyButton(2);
         ImageIcon zoomOutImage = new ImageIcon("/Users/Thomas/Dropbox/Programming/OOP/Labore/src/labor5/icons/zoomOut.png");
         zoomOut.setIcon(zoomOutImage);
         
-        MyButton zoomReal = new MyButton();
+        MyButton zoomReal = new MyButton(3);
         ImageIcon zoomRealImage = new ImageIcon("/Users/Thomas/Dropbox/Programming/OOP/Labore/src/labor5/icons/default.png");
         zoomReal.setIcon(zoomRealImage);
         
-        MyButton zoomIn = new MyButton();
+        MyButton zoomIn = new MyButton(4);
         ImageIcon zoomInImage = new ImageIcon("/Users/Thomas/Dropbox/Programming/OOP/Labore/src/labor5/icons/zoomIn.png");
         zoomIn.setIcon(zoomInImage);
         
