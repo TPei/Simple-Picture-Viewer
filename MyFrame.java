@@ -38,7 +38,7 @@ public class MyFrame extends JFrame
         zoomOut.setIcon(zoomOutImage);
         
         JButton zoomReal = new JButton();
-        ImageIcon zoomRealImage = new ImageIcon("/Users/Thomas/Dropbox/Programming/OOP/Labore/src/labor5/icons/default.png");
+        ImageIcon zoomRealImage = new ImageIcon("/Users/Thomas/Dropbox/Programming/OOP/Labore/src/labor5/icons/defaultSize.png");
         zoomReal.setIcon(zoomRealImage);
         
         JButton zoomIn = new JButton();
