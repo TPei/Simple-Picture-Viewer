@@ -51,7 +51,6 @@ public class MyFrame extends JFrame
         	public void actionPerformed(ActionEvent e) {
         		System.out.println("next Picture");
         		int thisPicture = image.getWhichPicture();
-        		image.setWhichPicture(thisPicture++);
         		image.setWhichPicture(++thisPicture);
         		image.repaint();
         	}
