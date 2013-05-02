@@ -19,7 +19,7 @@ public class MyFrame extends JFrame
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(800, 800);
 		
-		ImageHolder image = new ImageHolder();
+		final ImageHolder image = new ImageHolder();
 		
 		JPanel buttonContainer = new JPanel();
 		//Navigation buttonContainer = new Navigation();
@@ -51,13 +51,24 @@ public class MyFrame extends JFrame
         	public void actionPerformed(ActionEvent e) {
         		System.out.println("next Picture");
         		int thisPicture = image.getWhichPicture();
+<<<<<<< HEAD
         		image.setWhichPicture(thisPicture++);
+=======
+        		image.setWhichPicture(++thisPicture);
+        		image.repaint();
+>>>>>>> added next und previous button functionality
         	}
 		});
         
         prevButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		System.out.println("previous Picture");
+<<<<<<< HEAD
+=======
+        		int thisPicture = image.getWhichPicture();
+        		image.setWhichPicture(--thisPicture);
+        		image.repaint();
+>>>>>>> added next und previous button functionality
         	}
 		});
         

@@ -48,9 +48,12 @@ public class ImageHolder extends JPanel
 	
 	protected void specialPaint(Graphics g, int xSize, int ySize, int xStart, int yStart)
 	{
-		
 		// get nth image in Image folder
 		Image image = getImage(whichPicture);
+<<<<<<< HEAD
+=======
+		System.out.println(whichPicture);
+>>>>>>> added next und previous button functionality
 		g.drawImage(image, xStart, yStart, xSize, ySize, this);
 	}	
 	
@@ -59,6 +62,20 @@ public class ImageHolder extends JPanel
 	{
 		File myPictureDirectory = new File ("/Users/Thomas/Dropbox/Programming/OOP/Labore/src/labor5/pictures");
 		File[] myFiles = myPictureDirectory.listFiles();
+		
+		// count how many pngs are in directory
+		int directoryLength = 0;
+		for(int i = 0; i < myFiles.length; i++)
+		{
+			if (isPng(myFiles[i].toString()))
+				directoryLength++;
+		}
+		System.out.println("all: "+myFiles.length+ ", only png: "+directoryLength);
+		
+		if(nth < 0)
+			nth = directoryLength - 1 - nth;
+		
+		System.out.println("nth: "+nth);
 		
 		// to iterate through files
 		int file = 0;
@@ -70,22 +87,23 @@ public class ImageHolder extends JPanel
 		// I don't like those while(true) ... break; loops...
 		while(true)
 		{
-			String imageName = myFiles[file].toString();
-			String imageEnding = imageName.substring(imageName.length()-4, imageName.length());
+			if(file >= directoryLength)
+				file = 0;
 			
-			// right image, we're done
-			if (imageEnding.equals(".png") && (counter >= nth))
+			boolean isPNG = isPng(myFiles[file].toString()); 
+			if(isPNG && (counter >= nth))
 			{
-				// we're done, break, return
 				break;
 			}
+			
+			
 			// we're at the nth image but it wasn't a png, let's take the next png we find
 			else if (counter == nth)
 			{
 				file++;
 			}
 			// it was a png, but not the right one yet, let's take the next file and keep counting
-			else if(imageEnding.equals(".png"))
+			else if(isPNG)
 			{
 				file++;
 				counter++;
@@ -97,5 +115,18 @@ public class ImageHolder extends JPanel
 			}
 		}
 		return Toolkit.getDefaultToolkit().getImage(myFiles[file].toString());
+	}
+
+	private boolean isPng(String fileName)
+	{
+		String imageName = fileName;
+		String imageEnding = imageName.substring(imageName.length()-4, imageName.length());
+		
+		// right image, we're done
+		if (imageEnding.equals(".png"))
+			// we're done, break, return
+			return true;
+		
+		return false;
 	}
 }
