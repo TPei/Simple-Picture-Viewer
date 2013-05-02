@@ -50,10 +50,7 @@ public class ImageHolder extends JPanel
 	{
 		// get nth image in Image folder
 		Image image = getImage(whichPicture);
-<<<<<<< HEAD
-=======
 		System.out.println(whichPicture);
->>>>>>> added next und previous button functionality
 		g.drawImage(image, xStart, yStart, xSize, ySize, this);
 	}	
 	
