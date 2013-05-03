@@ -2,12 +2,24 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.io.File;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
-public class ImageHolder extends JPanel
-{
+public class ImageHolder extends JPanel implements MouseWheelListener, MouseMotionListener
+{	
+	ImageHolder()
+	{
+		addMouseWheelListener(this);
+		addMouseMotionListener(this);
+	}
+	
+	// decides which (nth) picture from folder is displayed
 	private int whichPicture = 0;
 	
 	public int getWhichPicture()
@@ -19,12 +31,39 @@ public class ImageHolder extends JPanel
 	{
 		this.whichPicture = whichPicture;
 	}
-
-	ImageHolder()
+	
+	// zoom factor
+	private double zoom = 1;
+	
+	public double getZoom()
 	{
-		
+		return zoom;
+	}
+
+	public void setZoom(double zoom)
+	{
+		// shouldn't be too small or too large (between 20% and 400%)
+		this.zoom = Math.min(Math.max(0.2, zoom), 4);
 	}
 	
+	public void setDefaultZoom()
+	{
+		this.zoom = 1;
+	}
+
+	// border color
+	Color borderColor = new Color(255, 0, 0);
+	
+	public Color getBorderColor()
+	{
+		return borderColor;
+	}
+
+	public void setBorderColor(Color borderColor)
+	{
+		this.borderColor = borderColor;
+	}
+
 	public void paint(Graphics g)
 	{
 		super.paint(g);
@@ -35,12 +74,11 @@ public class ImageHolder extends JPanel
 		
 		// gets the space that is available
 		int minSpace = Math.min(width, height);
-		int side = (int)Math.round(minSpace);
+		int side = (int)Math.round(minSpace*zoom);
 		
 		// calculates the space that is left
 		int restHeight = (height - side)/2;
 		int restWidth = (width - side)/2;
-		
 		
 		// calls specialPaint
 		specialPaint(g, side, side, restWidth, restHeight);
@@ -50,14 +88,21 @@ public class ImageHolder extends JPanel
 	{
 		// get nth image in Image folder
 		Image image = getImage(whichPicture);
-		System.out.println(whichPicture);
-		g.drawImage(image, xStart, yStart, xSize, ySize, this);
+		//System.out.println(whichPicture);
+		
+		/*int xMargin = (int)Math.round(xStart * zoom);
+		int yMargin = (int)Math.round(yStart * zoom);*/
+		
+		g.drawImage(image, xStart+1, yStart+1, xSize-2, ySize-2, this);
+		//setBorder(BorderFactory.createLineBorder(getBorderColor()));
+		g.setColor(borderColor);
+		g.drawRect(xStart+1, yStart+1, xSize-1, ySize-1);
 	}	
 	
 	// returns nth (starting at 0) image from image directory
 	public Image getImage(int nth)
 	{
-		File myPictureDirectory = new File ("/Users/Thomas/Dropbox/Programming/OOP/Labore/src/labor5/pictures");
+		File myPictureDirectory = new File ("/Users/Thomas/Dropbox/Github/OOP-Labor-5/pictures");
 		File[] myFiles = myPictureDirectory.listFiles();
 		
 		// count how many pngs are in directory
@@ -125,5 +170,39 @@ public class ImageHolder extends JPanel
 			return true;
 		
 		return false;
+	}
+
+	@Override
+	public void mouseWheelMoved(MouseWheelEvent e)
+	{
+		String message;
+		int notches = e.getWheelRotation();
+	       if (notches < 0) {
+	           message = "Mouse wheel moved UP "
+	                        + -notches + " notch(es)";
+	           setZoom(getZoom() + 0.1);
+	           repaint();
+	       } else {
+	           message = "Mouse wheel moved DOWN "
+	                        + notches + " notch(es)";
+	           setZoom(getZoom() - 0.1);
+	           repaint();
+	       }
+	    
+	   System.out.println(message);
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent arg0)
+	{
+		// TODO Auto-generated method stub
+		System.out.println("dragged image");
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent arg0)
+	{
+		// TODO Auto-generated method stub
+		
 	}
 }

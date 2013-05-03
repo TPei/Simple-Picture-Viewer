@@ -1,12 +1,18 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Image;
+import java.awt.Menu;
+import java.awt.MenuBar;
+import java.awt.MenuItem;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JColorChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -25,24 +31,24 @@ public class MyFrame extends JFrame
 		//Navigation buttonContainer = new Navigation();
 		
 		JButton nextButton = new JButton();
-        ImageIcon nextButtonImage = new ImageIcon("/Users/Thomas/Dropbox/Programming/OOP/Labore/src/labor5/icons/right.png");
+        ImageIcon nextButtonImage = new ImageIcon("/Users/Thomas/Dropbox/Github/OOP-Labor-5/icons/right.png");
         nextButton.setIcon(nextButtonImage);
         
         JButton prevButton = new JButton();
-        ImageIcon prevButtonImage = new ImageIcon("/Users/Thomas/Dropbox/Programming/OOP/Labore/src/labor5/icons/left.png");
+        ImageIcon prevButtonImage = new ImageIcon("/Users/Thomas/Dropbox/Github/OOP-Labor-5/icons/left.png");
         prevButton.setIcon(prevButtonImage);
         
         // zoom buttons
         JButton zoomOut = new JButton();
-        ImageIcon zoomOutImage = new ImageIcon("/Users/Thomas/Dropbox/Programming/OOP/Labore/src/labor5/icons/zoomOut.png");
+        ImageIcon zoomOutImage = new ImageIcon("/Users/Thomas/Dropbox/Github/OOP-Labor-5/icons/zoomOut.png");
         zoomOut.setIcon(zoomOutImage);
         
         JButton zoomReal = new JButton();
-        ImageIcon zoomRealImage = new ImageIcon("/Users/Thomas/Dropbox/Programming/OOP/Labore/src/labor5/icons/defaultSize.png");
+        ImageIcon zoomRealImage = new ImageIcon("/Users/Thomas/Dropbox/Github/OOP-Labor-5/icons/defaultSize.png");
         zoomReal.setIcon(zoomRealImage);
         
         JButton zoomIn = new JButton();
-        ImageIcon zoomInImage = new ImageIcon("/Users/Thomas/Dropbox/Programming/OOP/Labore/src/labor5/icons/zoomIn.png");
+        ImageIcon zoomInImage = new ImageIcon("/Users/Thomas/Dropbox/Github/OOP-Labor-5/icons/zoomIn.png");
         zoomIn.setIcon(zoomInImage);
         
         
@@ -68,18 +74,24 @@ public class MyFrame extends JFrame
         zoomOut.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		System.out.println("zoom out");
+        		image.setZoom(image.getZoom() - 0.1);
+        		image.repaint();
         	}
 		});
         
         zoomReal.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		System.out.println("default zoom");
+        		image.setZoom(1);
+        		image.repaint();
         	}
 		});
         
         zoomIn.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		System.out.println("zoom in");
+        		image.setZoom(image.getZoom() + 0.1);
+        		image.repaint();
         	}
 		});
         
@@ -98,6 +110,30 @@ public class MyFrame extends JFrame
         // add panel containing buttons to south of frame
         add(buttonContainer, BorderLayout.SOUTH);
 		
+        // Menu
+        MenuBar myMenuBar = new MenuBar();
+        Menu myMenu = new Menu("Preferences");
+        MenuItem myMenuItem = new MenuItem("Choose Border Color");
+        myMenuBar.add(myMenu);
+        myMenu.add(myMenuItem);
+        
+        setMenuBar(myMenuBar);
+        
+        myMenuItem.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		System.out.println("myMenuItem clicked");
+        		
+        		Color newColor = JColorChooser.showDialog(null, "Farbe waehlen", image.getBorderColor()); 
+        		
+        		if (newColor != null)
+        		{
+        			image.setBorderColor(newColor);
+        			System.out.println(newColor);
+        			repaint(); 
+        		}
+        	}
+		});
+        
 		setVisible(true);
 	}
 }
