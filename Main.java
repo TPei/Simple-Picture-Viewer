@@ -1,3 +1,7 @@
+/**
+* creates a MyFrame object
+* @author Thomas
+**/
 public class Main
 {
 

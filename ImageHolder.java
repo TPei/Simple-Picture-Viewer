@@ -119,9 +119,6 @@ public class ImageHolder extends JPanel implements MouseWheelListener, MouseMoti
 		int restHeight = (height - heightSide)/2;
 		int restWidth = (width - widthSide)/2;
 		
-		System.out.println("width: "+width+"widthSide: "+widthSide);
-		System.out.println("height: "+height+"heightSide: "+heightSide);
-		
 		// calls specialPaint
 		//specialPaint(g, side, side, restWidth, restHeight, minSpace);
 		
@@ -237,7 +234,9 @@ public class ImageHolder extends JPanel implements MouseWheelListener, MouseMoti
 			// drags upwards
 			System.out.println("up");
 		}
-		yOffset = e.getY(); // - yOffset;
+		//yOffset = e.getY() - prevY; // - yOffset;
+		//prevY = yOffset;
+		yOffset = e.getY() - yOffset;
 		
 		if(e.getX() > xOffset) {
 			// drags downwards
@@ -246,8 +245,12 @@ public class ImageHolder extends JPanel implements MouseWheelListener, MouseMoti
 			// drags upwards
 			System.out.println("left");
 		}
-		xOffset = e.getX(); // - xOffset;
+		//xOffset = e.getX() - prevX; // - xOffset;
+		//prevX = xOffset;
+		xOffset = e.getX() - xOffset;
 		
+		System.out.println("xOffset: "+xOffset+" previousXOffset: "+prevX);
+		System.out.println("yOffset: "+yOffset+" previousYOffset: "+prevY);
 		repaint();
 	}
 
