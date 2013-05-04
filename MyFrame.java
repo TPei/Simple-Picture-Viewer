@@ -16,17 +16,28 @@ import javax.swing.JColorChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+/**creates frames that shows a picture and a navigational bar below
+ * @author Thomas
+ * @version 0.3
+ * 
+ * @see ImageHolder
+ */
 public class MyFrame extends JFrame
 {
 	MyFrame()
 	{
-		// creates a Frame that contains 8 rows and 8 columns of randomly picked, colored and sized shapes
+		/**
+		 * creates a frame that contains a navigational bar and a larger picture
+		 */
 		super();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(800, 800);
 		
 		final ImageHolder image = new ImageHolder();
 		
+		
+		
+		// create Navigation (buttons with images and action listeners)
 		JPanel buttonContainer = new JPanel();
 		//Navigation buttonContainer = new Navigation();
 		
@@ -95,8 +106,6 @@ public class MyFrame extends JFrame
         	}
 		});
         
-        
-        
         // add zoom and navigation buttons to JPanel
         buttonContainer.add(zoomOut);
         buttonContainer.add(zoomReal);
@@ -110,7 +119,7 @@ public class MyFrame extends JFrame
         // add panel containing buttons to south of frame
         add(buttonContainer, BorderLayout.SOUTH);
 		
-        // Menu
+        // Menu to choose border color
         MenuBar myMenuBar = new MenuBar();
         Menu myMenu = new Menu("Preferences");
         MenuItem myMenuItem = new MenuItem("Choose Border Color");

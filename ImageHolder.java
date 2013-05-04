@@ -19,6 +19,8 @@ public class ImageHolder extends JPanel implements MouseWheelListener, MouseMoti
 		addMouseMotionListener(this);
 	}
 	
+	private File myPictureDirectory = new File ("/Users/Thomas/Dropbox/Github/OOP-Labor-5/pictures");
+	
 	// decides which (nth) picture from folder is displayed
 	private int whichPicture = 0;
 	
@@ -63,6 +65,29 @@ public class ImageHolder extends JPanel implements MouseWheelListener, MouseMoti
 	{
 		this.borderColor = borderColor;
 	}
+	
+	private int xOffset = 0;
+	private int yOffset = 0;
+
+	public int getxOffset()
+	{
+		return xOffset;
+	}
+
+	public void setxOffset(int xOffset)
+	{
+		this.xOffset = xOffset;
+	}
+
+	public int getyOffset()
+	{
+		return yOffset;
+	}
+
+	public void setyOffset(int yOffset)
+	{
+		this.yOffset = yOffset;
+	}
 
 	public void paint(Graphics g)
 	{
@@ -76,33 +101,36 @@ public class ImageHolder extends JPanel implements MouseWheelListener, MouseMoti
 		int minSpace = Math.min(width, height);
 		int side = (int)Math.round(minSpace*zoom);
 		
+		int widthSide = (int)Math.round(width*zoom);
+		int heightSide = (int)Math.round(height*zoom);
+		
 		// calculates the space that is left
-		int restHeight = (height - side)/2;
-		int restWidth = (width - side)/2;
+		int restHeight = (height - heightSide)/2;
+		int restWidth = (width - widthSide)/2;
+		
+		System.out.println("width: "+width+"widthSide: "+widthSide);
+		System.out.println("height: "+height+"heightSide: "+heightSide);
 		
 		// calls specialPaint
-		specialPaint(g, side, side, restWidth, restHeight);
-	}
-	
-	protected void specialPaint(Graphics g, int xSize, int ySize, int xStart, int yStart)
-	{
+		//specialPaint(g, side, side, restWidth, restHeight, minSpace);
+		
+		
 		// get nth image in Image folder
 		Image image = getImage(whichPicture);
 		//System.out.println(whichPicture);
-		
+				
 		/*int xMargin = (int)Math.round(xStart * zoom);
 		int yMargin = (int)Math.round(yStart * zoom);*/
-		
-		g.drawImage(image, xStart+1, yStart+1, xSize-2, ySize-2, this);
-		//setBorder(BorderFactory.createLineBorder(getBorderColor()));
+				
+		g.drawImage(image, restWidth+1, restHeight+1, widthSide-2, heightSide-2, this);
+		//setBorder(BorderFactory.createLineBorder(borderColor));
 		g.setColor(borderColor);
-		g.drawRect(xStart+1, yStart+1, xSize-1, ySize-1);
+		g.drawRect(restWidth+1, restHeight+1, widthSide-2, heightSide-2);
 	}	
 	
 	// returns nth (starting at 0) image from image directory
 	public Image getImage(int nth)
 	{
-		File myPictureDirectory = new File ("/Users/Thomas/Dropbox/Github/OOP-Labor-5/pictures");
 		File[] myFiles = myPictureDirectory.listFiles();
 		
 		// count how many pngs are in directory
