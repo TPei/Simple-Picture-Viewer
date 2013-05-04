@@ -11,6 +11,15 @@ import java.io.File;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
+/** manages picture contents
+ * @author Thomas
+ * @version 0.3
+ * 
+ * adds a picture, provides methods to pick another picture
+ * set colored border around picture
+ * implements zoom functionality
+ * let's you drag the picture around
+ */
 public class ImageHolder extends JPanel implements MouseWheelListener, MouseMotionListener
 {	
 	ImageHolder()
@@ -66,6 +75,8 @@ public class ImageHolder extends JPanel implements MouseWheelListener, MouseMoti
 		this.borderColor = borderColor;
 	}
 	
+	private int prevX = 0;
+	private int prevY = 0;
 	private int xOffset = 0;
 	private int yOffset = 0;
 
@@ -122,10 +133,10 @@ public class ImageHolder extends JPanel implements MouseWheelListener, MouseMoti
 		/*int xMargin = (int)Math.round(xStart * zoom);
 		int yMargin = (int)Math.round(yStart * zoom);*/
 				
-		g.drawImage(image, restWidth+1, restHeight+1, widthSide-2, heightSide-2, this);
+		g.drawImage(image, restWidth+1+xOffset, restHeight+1+yOffset, widthSide-2, heightSide-2, this);
 		//setBorder(BorderFactory.createLineBorder(borderColor));
 		g.setColor(borderColor);
-		g.drawRect(restWidth+1, restHeight+1, widthSide-2, heightSide-2);
+		g.drawRect(restWidth+1 + xOffset, restHeight+1 + yOffset, widthSide-2, heightSide-2);
 	}	
 	
 	// returns nth (starting at 0) image from image directory
@@ -203,28 +214,41 @@ public class ImageHolder extends JPanel implements MouseWheelListener, MouseMoti
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e)
 	{
-		String message;
 		int notches = e.getWheelRotation();
-	       if (notches < 0) {
-	           message = "Mouse wheel moved UP "
-	                        + -notches + " notch(es)";
-	           setZoom(getZoom() + 0.1);
-	           repaint();
-	       } else {
-	           message = "Mouse wheel moved DOWN "
-	                        + notches + " notch(es)";
-	           setZoom(getZoom() - 0.1);
-	           repaint();
-	       }
-	    
-	   System.out.println(message);
+	    if (notches < 0) {
+	    	setZoom(getZoom() + 0.1);
+	    	repaint();
+	    } else {
+	    	setZoom(getZoom() - 0.1);
+	    	repaint();
+	    }
 	}
 
 	@Override
-	public void mouseDragged(MouseEvent arg0)
+	public void mouseDragged(MouseEvent e)
 	{
+		
 		// TODO Auto-generated method stub
 		System.out.println("dragged image");
+		if(e.getY() > yOffset) {
+			// drags downwards
+			System.out.println("down");
+		} else if (e.getY() < yOffset) {
+			// drags upwards
+			System.out.println("up");
+		}
+		yOffset = e.getY(); // - yOffset;
+		
+		if(e.getX() > xOffset) {
+			// drags downwards
+			System.out.println("right");
+		} else if (e.getX() < xOffset) {
+			// drags upwards
+			System.out.println("left");
+		}
+		xOffset = e.getX(); // - xOffset;
+		
+		repaint();
 	}
 
 	@Override
