@@ -106,8 +106,6 @@ public class ImageHolder extends JPanel implements MouseWheelListener, MouseMoti
 	{
 		this.myPictureDirectory = myPictureDirectory;
 	}
-
-
 	
 	/** paint method
 	 * checks layout, space etc
@@ -158,7 +156,7 @@ public class ImageHolder extends JPanel implements MouseWheelListener, MouseMoti
 		int directoryLength = 0;
 		for(int i = 0; i < myFiles.length; i++)
 		{
-			if (isPng(myFiles[i].toString()))
+			if (isPicture(myFiles[i].toString()))
 				directoryLength++;
 		}
 		System.out.println("all: "+myFiles.length+ ", only png: "+directoryLength);
@@ -172,15 +170,15 @@ public class ImageHolder extends JPanel implements MouseWheelListener, MouseMoti
 		// counts nth files, starting at 1
 		int counter = 0;
 		
-		// finds the nth file with .pgn as ending in folder
+		// finds the nth file with .png as ending in folder
 		// I don't like those while(true) ... break; loops...
 		while(true)
 		{
 			if(file >= directoryLength)
 				file = 0;
 			
-			boolean isPNG = isPng(myFiles[file].toString()); 
-			if(isPNG && (counter >= nth))
+			boolean fileIsPicture = isPicture(myFiles[file].toString()); 
+			if(fileIsPicture && (counter >= nth))
 			{
 				break;
 			}
@@ -192,7 +190,7 @@ public class ImageHolder extends JPanel implements MouseWheelListener, MouseMoti
 				file++;
 			}
 			// it was a png, but not the right one yet, let's take the next file and keep counting
-			else if(isPNG)
+			else if(fileIsPicture)
 			{
 				file++;
 				counter++;
@@ -207,13 +205,13 @@ public class ImageHolder extends JPanel implements MouseWheelListener, MouseMoti
 		return Toolkit.getDefaultToolkit().getImage(myFiles[file].toString());
 	}
 
-	private boolean isPng(String fileName)
+	private boolean isPicture(String fileName)
 	{
 		String imageName = fileName;
 		String imageEnding = imageName.substring(imageName.length()-4, imageName.length());
 		
 		// right image, we're done
-		if (imageEnding.equals(".png"))
+		if (imageEnding.equals(".png")) //|| imageEnding.equals(".jpg"))
 			// we're done, break, return
 			return true;
 		
@@ -236,13 +234,16 @@ public class ImageHolder extends JPanel implements MouseWheelListener, MouseMoti
 	@Override
 	public void mouseDragged(MouseEvent e)
 	{
-		if(mouseClickedPositionX < xOffset || mouseClickedPositionY < yOffset)
-			return;
-		int mouseXDiff = mouseClickedPositionX - e.getX();
-		int mouseYDiff = mouseClickedPositionY - e.getY();
-		xOffset = -mouseXDiff;
-		yOffset = -mouseYDiff;
+		int mouseXDiff = e.getX() - mouseClickedPositionX;
+		int mouseYDiff = e.getY() - mouseClickedPositionY;
+
+		xOffset += mouseXDiff;
+		yOffset += mouseYDiff;
+
 		repaint();
+
+		mouseClickedPositionX = e.getX();
+		mouseClickedPositionY = e.getY();
 	}
 	
 	@Override
@@ -278,7 +279,6 @@ public class ImageHolder extends JPanel implements MouseWheelListener, MouseMoti
 	{
 		mouseClickedPositionX = e.getX();
 		mouseClickedPositionY = e.getY();
-		
 	}
 
 	@Override

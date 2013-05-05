@@ -1,21 +1,7 @@
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Image;
-import java.awt.Menu;
-import java.awt.MenuBar;
-import java.awt.MenuItem;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
+import java.awt.event.*;
 import java.io.File;
-
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JColorChooser;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 /**creates frames that shows a picture and a navigational bar below
  * @author Thomas
@@ -40,29 +26,16 @@ public class MyFrame extends JFrame
 		
 		// create Navigation (buttons with images and action listeners)
 		JPanel buttonContainer = new JPanel();
-		//Navigation buttonContainer = new Navigation();
 		
-		JButton nextButton = new JButton();
-        ImageIcon nextButtonImage = new ImageIcon("/Users/Thomas/Dropbox/Github/OOP-Labor-5/icons/right.png");
-        nextButton.setIcon(nextButtonImage);
+		// multiple buttons for navigation and zoom
+		ImageButton nextButton = new ImageButton("right.png");
+		ImageButton prevButton = new ImageButton("left.png");
+		ImageButton zoomOut = new ImageButton("zoomOut.png");
+		ImageButton zoomReal = new ImageButton("defaultSize.png");
+		ImageButton zoomIn = new ImageButton("zoomIn.png");
         
-        JButton prevButton = new JButton();
-        ImageIcon prevButtonImage = new ImageIcon("/Users/Thomas/Dropbox/Github/OOP-Labor-5/icons/left.png");
-        prevButton.setIcon(prevButtonImage);
-        
-        // zoom buttons
-        JButton zoomOut = new JButton();
-        ImageIcon zoomOutImage = new ImageIcon("/Users/Thomas/Dropbox/Github/OOP-Labor-5/icons/zoomOut.png");
-        zoomOut.setIcon(zoomOutImage);
-        
-        JButton zoomReal = new JButton();
-        ImageIcon zoomRealImage = new ImageIcon("/Users/Thomas/Dropbox/Github/OOP-Labor-5/icons/defaultSize.png");
-        zoomReal.setIcon(zoomRealImage);
-        
-        JButton zoomIn = new JButton();
-        ImageIcon zoomInImage = new ImageIcon("/Users/Thomas/Dropbox/Github/OOP-Labor-5/icons/zoomIn.png");
-        zoomIn.setIcon(zoomInImage);
-        
+		
+		
         // action listeners
         nextButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
@@ -123,13 +96,13 @@ public class MyFrame extends JFrame
         MenuBar myMenuBar = new MenuBar();
         Menu myMenu = new Menu("Preferences");
         MenuItem myMenuItem = new MenuItem("Choose Border Color");
-        MenuItem myMenuItem2 = new MenuItem("Choose file path");
+        MenuItem myMenuItem2 = new MenuItem("Choose File Path");
         myMenuBar.add(myMenu);
         myMenu.add(myMenuItem2);
         myMenu.add(myMenuItem);  
         
         setMenuBar(myMenuBar);
-        
+         
         // set color to chosen color when using color chooser menu
         myMenuItem.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
@@ -148,13 +121,11 @@ public class MyFrame extends JFrame
         	public void actionPerformed(ActionEvent e) {
         		System.out.println("myMenuItem clicked");
         		
-        		//File newFile = JFileChooser.showDialog(null, "Pick a image directory"); 
+        		//Create a file chooser
+        		final JFileChooser fc = new JFileChooser();
+        		//In response to a button click:
+        		//int returnVal = fc.showOpenDialog(temporaryLostComponent);
         		
-        		/*if (newColor != null)
-        		{
-        			image.setBorderColor(newColor);
-        			repaint(); 
-        		}*/
         	}
 		});
         
