@@ -13,6 +13,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -24,17 +25,17 @@ import javax.swing.JPanel;
  */
 public class MyFrame extends JFrame
 {
+	/**
+	 * creates a frame that contains a navigational bar and a larger picture
+	 */
 	MyFrame()
 	{
-		/**
-		 * creates a frame that contains a navigational bar and a larger picture
-		 */
 		super();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(800, 800);
 		
+		// Image to be added
 		final ImageHolder image = new ImageHolder();
-		
 		
 		
 		// create Navigation (buttons with images and action listeners)
@@ -62,13 +63,13 @@ public class MyFrame extends JFrame
         ImageIcon zoomInImage = new ImageIcon("/Users/Thomas/Dropbox/Github/OOP-Labor-5/icons/zoomIn.png");
         zoomIn.setIcon(zoomInImage);
         
-        
         // action listeners
         nextButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		System.out.println("next Picture");
         		int thisPicture = image.getWhichPicture();
         		image.setWhichPicture(++thisPicture);
+        		image.resetImage();
         		image.repaint();
         	}
 		});
@@ -78,13 +79,13 @@ public class MyFrame extends JFrame
         		System.out.println("previous Picture");
         		int thisPicture = image.getWhichPicture();
         		image.setWhichPicture(--thisPicture);
+        		image.resetImage();
         		image.repaint();
         	}
 		});
         
         zoomOut.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		System.out.println("zoom out");
         		image.setZoom(image.getZoom() - 0.1);
         		image.repaint();
         	}
@@ -92,8 +93,7 @@ public class MyFrame extends JFrame
         
         zoomReal.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		System.out.println("default zoom");
-        		image.setZoom(1);
+        		image.resetImage();
         		image.repaint();
         	}
 		});
@@ -123,11 +123,14 @@ public class MyFrame extends JFrame
         MenuBar myMenuBar = new MenuBar();
         Menu myMenu = new Menu("Preferences");
         MenuItem myMenuItem = new MenuItem("Choose Border Color");
+        MenuItem myMenuItem2 = new MenuItem("Choose file path");
         myMenuBar.add(myMenu);
-        myMenu.add(myMenuItem);
+        myMenu.add(myMenuItem2);
+        myMenu.add(myMenuItem);  
         
         setMenuBar(myMenuBar);
         
+        // set color to chosen color when using color chooser menu
         myMenuItem.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		System.out.println("myMenuItem clicked");
@@ -137,9 +140,21 @@ public class MyFrame extends JFrame
         		if (newColor != null)
         		{
         			image.setBorderColor(newColor);
-        			System.out.println(newColor);
         			repaint(); 
         		}
+        	}
+		});
+        myMenuItem2.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		System.out.println("myMenuItem clicked");
+        		
+        		//File newFile = JFileChooser.showDialog(null, "Pick a image directory"); 
+        		
+        		/*if (newColor != null)
+        		{
+        			image.setBorderColor(newColor);
+        			repaint(); 
+        		}*/
         	}
 		});
         

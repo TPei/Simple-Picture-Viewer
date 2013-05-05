@@ -3,6 +3,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
@@ -20,19 +21,46 @@ import javax.swing.JPanel;
  * implements zoom functionality
  * let's you drag the picture around
  */
-public class ImageHolder extends JPanel implements MouseWheelListener, MouseMotionListener
+public class ImageHolder extends JPanel implements MouseWheelListener, MouseMotionListener, MouseListener
 {	
 	ImageHolder()
 	{
 		addMouseWheelListener(this);
 		addMouseMotionListener(this);
+		addMouseListener(this);
 	}
 	
+	// picture directory
 	private File myPictureDirectory = new File ("/Users/Thomas/Dropbox/Github/OOP-Labor-5/pictures");
 	
 	// decides which (nth) picture from folder is displayed
 	private int whichPicture = 0;
 	
+	// border color
+	private Color borderColor = new Color(255, 0, 0);
+	
+	// zoom factor
+	private double zoom = 1;
+	
+	// drag offset
+	private int mouseClickedPositionX = 0;
+	private int mouseClickedPositionY = 0;
+	private int xOffset = 0;
+	private int yOffset = 0;
+	
+	/**
+	 * reset dragging offset and zoom etc. (image position back to start)
+	 */
+	public void resetImage()
+	{
+		mouseClickedPositionX = 0;
+		mouseClickedPositionY = 0;
+		xOffset = 0;
+		yOffset = 0;
+		zoom = 1;
+	}
+	
+	// multiple setter and getter methods
 	public int getWhichPicture()
 	{
 		return whichPicture;
@@ -41,10 +69,7 @@ public class ImageHolder extends JPanel implements MouseWheelListener, MouseMoti
 	public void setWhichPicture(int whichPicture)
 	{
 		this.whichPicture = whichPicture;
-	}
-	
-	// zoom factor
-	private double zoom = 1;
+	}	
 	
 	public double getZoom()
 	{
@@ -61,9 +86,6 @@ public class ImageHolder extends JPanel implements MouseWheelListener, MouseMoti
 	{
 		this.zoom = 1;
 	}
-
-	// border color
-	Color borderColor = new Color(255, 0, 0);
 	
 	public Color getBorderColor()
 	{
@@ -75,31 +97,22 @@ public class ImageHolder extends JPanel implements MouseWheelListener, MouseMoti
 		this.borderColor = borderColor;
 	}
 	
-	private int prevX = 0;
-	private int prevY = 0;
-	private int xOffset = 0;
-	private int yOffset = 0;
-
-	public int getxOffset()
+	public File getMyPictureDirectory()
 	{
-		return xOffset;
+		return myPictureDirectory;
 	}
 
-	public void setxOffset(int xOffset)
+	public void setMyPictureDirectory(File myPictureDirectory)
 	{
-		this.xOffset = xOffset;
+		this.myPictureDirectory = myPictureDirectory;
 	}
 
-	public int getyOffset()
-	{
-		return yOffset;
-	}
 
-	public void setyOffset(int yOffset)
-	{
-		this.yOffset = yOffset;
-	}
-
+	
+	/** paint method
+	 * checks layout, space etc
+	 * draws image
+	 */
 	public void paint(Graphics g)
 	{
 		super.paint(g);
@@ -153,8 +166,6 @@ public class ImageHolder extends JPanel implements MouseWheelListener, MouseMoti
 		if(nth < 0)
 			nth = directoryLength - 1 - nth;
 		
-		System.out.println("nth: "+nth);
-		
 		// to iterate through files
 		int file = 0;
 		
@@ -192,6 +203,7 @@ public class ImageHolder extends JPanel implements MouseWheelListener, MouseMoti
 				file++;
 			}
 		}
+		
 		return Toolkit.getDefaultToolkit().getImage(myFiles[file].toString());
 	}
 
@@ -224,38 +236,53 @@ public class ImageHolder extends JPanel implements MouseWheelListener, MouseMoti
 	@Override
 	public void mouseDragged(MouseEvent e)
 	{
-		
-		// TODO Auto-generated method stub
-		System.out.println("dragged image");
-		if(e.getY() > yOffset) {
-			// drags downwards
-			System.out.println("down");
-		} else if (e.getY() < yOffset) {
-			// drags upwards
-			System.out.println("up");
-		}
-		//yOffset = e.getY() - prevY; // - yOffset;
-		//prevY = yOffset;
-		yOffset = e.getY() - yOffset;
-		
-		if(e.getX() > xOffset) {
-			// drags downwards
-			System.out.println("right");
-		} else if (e.getX() < xOffset) {
-			// drags upwards
-			System.out.println("left");
-		}
-		//xOffset = e.getX() - prevX; // - xOffset;
-		//prevX = xOffset;
-		xOffset = e.getX() - xOffset;
-		
-		System.out.println("xOffset: "+xOffset+" previousXOffset: "+prevX);
-		System.out.println("yOffset: "+yOffset+" previousYOffset: "+prevY);
+		if(mouseClickedPositionX < xOffset || mouseClickedPositionY < yOffset)
+			return;
+		int mouseXDiff = mouseClickedPositionX - e.getX();
+		int mouseYDiff = mouseClickedPositionY - e.getY();
+		xOffset = -mouseXDiff;
+		yOffset = -mouseYDiff;
 		repaint();
+	}
+	
+	@Override
+	public void mouseMoved(MouseEvent arg0)
+	{
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
-	public void mouseMoved(MouseEvent arg0)
+	public void mouseClicked(MouseEvent arg0)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e)
+	{
+		mouseClickedPositionX = e.getX();
+		mouseClickedPositionY = e.getY();
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0)
 	{
 		// TODO Auto-generated method stub
 		
