@@ -13,13 +13,14 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 /** manages picture contents
- * @author Thomas
- * @version 0.3
- * 
  * adds a picture, provides methods to pick another picture
  * set colored border around picture
  * implements zoom functionality
  * let's you drag the picture around
+ * 
+ * @author Thomas
+ * @version 0.3
+ * 
  */
 public class ImageHolder extends JPanel implements MouseWheelListener, MouseMotionListener, MouseListener
 {	
@@ -147,7 +148,12 @@ public class ImageHolder extends JPanel implements MouseWheelListener, MouseMoti
 		g.drawRect(restWidth+1 + xOffset, restHeight+1 + yOffset, widthSide-2, heightSide-2);
 	}	
 	
-	// returns nth (starting at 0) image from image directory
+	/**
+	 * returns nth (starting at 0) image from image directory
+	 * @param nth
+	 * @return Image 
+	 * @see Image
+	 */
 	public Image getImage(int nth)
 	{
 		File[] myFiles = myPictureDirectory.listFiles();
@@ -205,6 +211,11 @@ public class ImageHolder extends JPanel implements MouseWheelListener, MouseMoti
 		return Toolkit.getDefaultToolkit().getImage(myFiles[file].toString());
 	}
 
+	/**
+	 * checks if file is picture (currently png) by checking the file ending
+	 * @param fileName
+	 * @return boolean
+	 */
 	private boolean isPicture(String fileName)
 	{
 		String imageName = fileName;
