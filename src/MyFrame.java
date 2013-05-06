@@ -39,7 +39,6 @@ public class MyFrame extends JFrame
         // action listeners
         nextButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		System.out.println("next Picture");
         		int thisPicture = image.getWhichPicture();
         		image.setWhichPicture(++thisPicture);
         		image.resetImage();
@@ -49,7 +48,6 @@ public class MyFrame extends JFrame
         
         prevButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		System.out.println("previous Picture");
         		int thisPicture = image.getWhichPicture();
         		image.setWhichPicture(--thisPicture);
         		image.resetImage();
@@ -92,7 +90,7 @@ public class MyFrame extends JFrame
         // add panel containing buttons to south of frame
         add(buttonContainer, BorderLayout.SOUTH);
 		
-        // Menu to choose border color
+        // Menu to choose border color and file path
         MenuBar myMenuBar = new MenuBar();
         Menu myMenu = new Menu("Preferences");
         MenuItem myMenuItem = new MenuItem("Choose Border Color");
@@ -103,10 +101,9 @@ public class MyFrame extends JFrame
         
         setMenuBar(myMenuBar);
          
-        // set color to chosen color when using color chooser menu
+        // set color to chosen color when using JColorChooser menu
         myMenuItem.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		System.out.println("myMenuItem clicked");
         		
         		Color newColor = JColorChooser.showDialog(null, "Farbe waehlen", image.getBorderColor()); 
         		
@@ -117,15 +114,21 @@ public class MyFrame extends JFrame
         		}
         	}
 		});
+        
+        // set file directory for images via JFileChooser menu
         myMenuItem2.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		System.out.println("myMenuItem clicked");
-        		
-        		//Create a file chooser
-        		final JFileChooser fc = new JFileChooser();
-        		//In response to a button click:
-        		//int returnVal = fc.showOpenDialog(temporaryLostComponent);
-        		
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser myFileDialog = new JFileChooser(); 
+				
+				myFileDialog.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY); 
+				
+				int result = myFileDialog.showDialog(null, "Choose Directory"); 
+				
+				if (result == JFileChooser.APPROVE_OPTION)
+				{
+					image.setMyPictureDirectory(myFileDialog.getSelectedFile());
+					repaint();
+				}
         	}
 		});
         

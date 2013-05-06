@@ -156,7 +156,6 @@ public class ImageHolder extends JPanel implements MouseWheelListener, MouseMoti
 	 */
 	public Image getImage(int nth)
 	{
-		System.out.println("given nth: "+nth);
 		File[] myFiles = myPictureDirectory.listFiles();
 		
 		// count how many pngs are in directory
