@@ -44,7 +44,7 @@ public class MyFrame extends JFrame
         	public void actionPerformed(ActionEvent e) {
         		int thisPicture = image.getWhichPicture();
         		image.setWhichPicture(++thisPicture);
-        		image.resetImage();
+        		image.resetImage();        		
         		image.repaint();
         	}
 		});

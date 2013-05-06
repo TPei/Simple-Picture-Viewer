@@ -1,6 +1,8 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -131,19 +133,11 @@ public class ImageHolder extends JPanel implements MouseWheelListener, MouseMoti
 		int restHeight = (height - heightSide)/2;
 		int restWidth = (width - widthSide)/2;
 		
-		// calls specialPaint
-		//specialPaint(g, side, side, restWidth, restHeight, minSpace);
-		
-		
 		// get nth image in Image folder
 		Image image = getImage(whichPicture);
-		//System.out.println(whichPicture);
-				
-		/*int xMargin = (int)Math.round(xStart * zoom);
-		int yMargin = (int)Math.round(yStart * zoom);*/
-				
+		
 		g.drawImage(image, restWidth+1+xOffset, restHeight+1+yOffset, widthSide-2, heightSide-2, this);
-		//setBorder(BorderFactory.createLineBorder(borderColor));
+		//setBorder(BorderFactory.createLineBorder(borderColor));		
 		g.setColor(borderColor);
 		g.drawRect(restWidth+1 + xOffset, restHeight+1 + yOffset, widthSide-2, heightSide-2);
 	}	
