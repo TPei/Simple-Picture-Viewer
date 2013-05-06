@@ -6,7 +6,7 @@ public class ImageButton extends JButton
 	ImageButton(String imagePath)
 	{
 		// default path for my machines
-		ImageIcon nextButtonImage = new ImageIcon("/Users/Thomas/Dropbox/Programming/OOP/OOP Labor 5/icons/"+imagePath);
+		ImageIcon nextButtonImage = new ImageIcon("icons/"+imagePath);
 		this.setIcon(nextButtonImage);
 	}
 }

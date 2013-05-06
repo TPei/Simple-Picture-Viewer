@@ -31,7 +31,7 @@ public class ImageHolder extends JPanel implements MouseWheelListener, MouseMoti
 	}
 	
 	// picture directory
-	private File myPictureDirectory = new File ("/Users/Thomas/Dropbox/Programming/OOP/OOP Labor 5/pictures");
+	private File myPictureDirectory = new File ("pictures");
 	
 	// decides which (nth) picture from folder is displayed
 	private int whichPicture = 0;
