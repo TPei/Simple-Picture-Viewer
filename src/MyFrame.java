@@ -1,6 +1,8 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.util.Random;
+
 import javax.swing.*;
 
 /**creates frames that shows a picture and a navigational bar below
@@ -33,9 +35,10 @@ public class MyFrame extends JFrame
 		ImageButton zoomOut = new ImageButton("zoomOut.png");
 		ImageButton zoomReal = new ImageButton("defaultSize.png");
 		ImageButton zoomIn = new ImageButton("zoomIn.png");
+		
+		// chooses a random picture
+		ImageButton randomButton = new ImageButton("random.png");
         
-		
-		
         // action listeners
         nextButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
@@ -52,6 +55,15 @@ public class MyFrame extends JFrame
         		image.setWhichPicture(--thisPicture);
         		image.resetImage();
         		image.repaint();
+        	}
+		});
+        
+        randomButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		Random randomGenerator = new Random();
+        	    int randomInt = randomGenerator.nextInt(100);
+        	    image.setWhichPicture(randomInt);
+        	    image.repaint();
         	}
 		});
         
@@ -83,6 +95,7 @@ public class MyFrame extends JFrame
         buttonContainer.add(zoomIn);
         buttonContainer.add(prevButton);
         buttonContainer.add(nextButton);
+        buttonContainer.add(randomButton);
         
         // add image to center of frame
         add(image, BorderLayout.CENTER);

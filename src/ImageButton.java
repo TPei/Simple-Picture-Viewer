@@ -1,3 +1,5 @@
+import java.awt.Dimension;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
@@ -12,6 +14,7 @@ public class ImageButton extends JButton
 	{
 		// default path for my machines
 		ImageIcon nextButtonImage = new ImageIcon("icons/"+imagePath);
+		this.setPreferredSize(new Dimension(100, 100));
 		this.setIcon(nextButtonImage);
 	}
 }
