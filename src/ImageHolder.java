@@ -125,27 +125,46 @@ public class ImageHolder extends JPanel implements MouseWheelListener, MouseMoti
 		int side = (int)Math.round(minSpace*zoom);
 		
 		int widthSide = (int)Math.round(width*zoom);
-		int heightSide = (int)Math.round(height*zoom);
-		
-		// calculates the space that is left
-		int restHeight = (height - heightSide)/2;
-		int restWidth = (width - widthSide)/2;
-		
-		// calls specialPaint
-		//specialPaint(g, side, side, restWidth, restHeight, minSpace);
-		
+		int heightSide = (int)Math.round(height*zoom);		
 		
 		// get nth image in Image folder
 		Image image = getImage(whichPicture);
-		//System.out.println(whichPicture);
-				
-		/*int xMargin = (int)Math.round(xStart * zoom);
-		int yMargin = (int)Math.round(yStart * zoom);*/
-				
-		g.drawImage(image, restWidth+1+xOffset, restHeight+1+yOffset, widthSide-2, heightSide-2, this);
+		
+		// calculate aspect ratio etc so that the image won't be compressed
+		int imageWidth = (int)(image.getWidth(null) * zoom);
+		int imageHeight = (int)(image.getHeight(null) * zoom);		
+		
+		if(imageWidth > imageHeight){
+            double ratio = (double)widthSide / (double)imageWidth;   // get ratio for scaling image
+            
+            //imageWidth = width; // Set new width
+            imageHeight = (int)(imageHeight * ratio);
+            imageWidth = Math.min(imageWidth, widthSide);
+        }
+		else if(imageHeight > imageWidth){
+            double ratio = (double)heightSide / (double)imageHeight; // get ratio for scaling image
+            
+            //imageHeight = height;
+            imageWidth = (int)(imageWidth * ratio);
+            imageHeight = Math.min(imageHeight, heightSide);
+        }
+		
+		// calculates the space that is left
+		int restHeight = (height - imageHeight)/2;
+		int restWidth = (width - imageWidth)/2;
+		
+		g.drawImage(image, restWidth+1+xOffset, restHeight+1+yOffset, imageWidth-2, imageHeight-2, this);
 		//setBorder(BorderFactory.createLineBorder(borderColor));
 		g.setColor(borderColor);
-		g.drawRect(restWidth+1 + xOffset, restHeight+1 + yOffset, widthSide-2, heightSide-2);
+		
+		// border around image
+		g.drawRect(restWidth+1 + xOffset, restHeight+1 + yOffset, imageWidth-2, imageHeight-2);
+		
+		// border around container
+		//g.drawRect(0, 0, width-1, height-1);
+		
+		//g.drawRect(Math.max(0, restWidth+1 + xOffset), Math.max(0, restHeight+1 + yOffset), Math.min(width-1, imageWidth-2), Math.min(height-1, imageHeight-2));
+		//setComponentZOrder(setBorder(BorderFactory.createLineBorder(borderColor)), 0);
 	}	
 	
 	/**
