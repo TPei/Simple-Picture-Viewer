@@ -5,7 +5,7 @@ import javax.swing.*;
 
 /**creates frames that shows a picture and a navigational bar below
  * @author Thomas
- * @version 0.3
+ * @version 1.0
  * 
  * @see ImageHolder
  */
@@ -23,18 +23,15 @@ public class MyFrame extends JFrame
 		// Image to be added
 		final ImageHolder image = new ImageHolder();
 		
-		
 		// create Navigation (buttons with images and action listeners)
 		JPanel buttonContainer = new JPanel();
 		
 		// multiple buttons for navigation and zoom
-		ImageButton nextButton = new ImageButton("right.png");
-		ImageButton prevButton = new ImageButton("left.png");
-		ImageButton zoomOut = new ImageButton("zoomOut.png");
-		ImageButton zoomReal = new ImageButton("defaultSize.png");
-		ImageButton zoomIn = new ImageButton("zoomIn.png");
-        
-		
+		ImageButton nextButton = new ImageButton("icons/right.png");
+		ImageButton prevButton = new ImageButton("icons/left.png");
+		ImageButton zoomOut = new ImageButton("icons/zoomOut.png");
+		ImageButton zoomReal = new ImageButton("icons/defaultSize.png");
+		ImageButton zoomIn = new ImageButton("icons/zoomIn.png");
 		
         // action listeners
         nextButton.addActionListener(new ActionListener() {
@@ -71,7 +68,6 @@ public class MyFrame extends JFrame
         
         zoomIn.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		System.out.println("zoom in");
         		image.setZoom(image.getZoom() + 0.1);
         		image.repaint();
         	}

@@ -8,9 +8,11 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.io.File;
+import java.io.FileFilter;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /** manages picture contents
  * adds a picture, provides methods to pick another picture
@@ -19,7 +21,7 @@ import javax.swing.JPanel;
  * let's you drag the picture around
  * 
  * @author Thomas
- * @version 0.3
+ * @version 1.0
  * 
  */
 public class ImageHolder extends JPanel implements MouseWheelListener, MouseMotionListener, MouseListener
@@ -176,12 +178,13 @@ public class ImageHolder extends JPanel implements MouseWheelListener, MouseMoti
 	public Image getImage(int nth)
 	{
 		File[] myFiles = myPictureDirectory.listFiles();
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("Pictures", "jpg", "jpeg", "png", "bmp");
 		
 		// count how many pngs are in directory
 		int directoryLength = 0;
 		for(int i = 0; i < myFiles.length; i++)
 		{
-			if (isPicture(myFiles[i].toString()))
+			if (filter.accept(myFiles[i]))
 				directoryLength++;
 		}
 		//System.out.println("all: "+myFiles.length+ ", only png: "+directoryLength);
@@ -202,7 +205,7 @@ public class ImageHolder extends JPanel implements MouseWheelListener, MouseMoti
 			if(file >= directoryLength)
 				file = 0;
 			
-			boolean fileIsPicture = isPicture(myFiles[file].toString()); 
+			boolean fileIsPicture = filter.accept(myFiles[file]);
 			if(fileIsPicture && (counter >= nth))
 			{
 				break;
@@ -228,24 +231,6 @@ public class ImageHolder extends JPanel implements MouseWheelListener, MouseMoti
 		}
 		
 		return Toolkit.getDefaultToolkit().getImage(myFiles[file].toString());
-	}
-
-	/**
-	 * checks if file is picture (currently png) by checking the file ending
-	 * @param fileName
-	 * @return boolean
-	 */
-	private boolean isPicture(String fileName)
-	{
-		String imageName = fileName;
-		String imageEnding = imageName.substring(imageName.length()-4, imageName.length());
-		
-		// right image, we're done
-		if (imageEnding.equals(".png")) //|| imageEnding.equals(".jpg"))
-			// we're done, break, return
-			return true;
-		
-		return false;
 	}
 
 	@Override
